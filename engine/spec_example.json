@@ -1,0 +1,48 @@
+{
+ "length": 0.9,
+ "scenes": [
+  {
+   "id": "s1",
+   "say": "Vos clients ne reviennent pas ? Voici trois conseils simples pour remplir votre snack en semaine.",
+   "cap": "Vos clients ne reviennent pas ? Trois conseils simples pour remplir votre snack.",
+   "hl": [
+    "reviennent",
+    "remplir"
+   ]
+  },
+  {
+   "id": "s2",
+   "say": "Premier conseil. Une récompense simple. Par exemple, dix passages, un menu offert.",
+   "cap": "Une récompense simple. Dix passages, un menu offert.",
+   "hl": [
+    "simple.",
+    "offert."
+   ]
+  },
+  {
+   "id": "s3",
+   "say": "Deuxième conseil. Relancez par S M S les clients que vous ne voyez plus.",
+   "cap": "Relancez par SMS les clients que vous ne voyez plus.",
+   "hl": [
+    "sms"
+   ]
+  },
+  {
+   "id": "s4",
+   "say": "Troisième conseil. Demandez un avis Google au bon moment, juste après un bon repas.",
+   "cap": "Demandez l'avis Google juste après un bon repas.",
+   "hl": [
+    "google"
+   ]
+  },
+  {
+   "id": "s5",
+   "say": "Flamio fait tout ça automatiquement, avec un simple scan de Q R code. Essayez gratuitement pendant un mois, sur flamio app point f r.",
+   "cap": "Flamio fait tout ça automatiquement. Essai gratuit un mois, sur flamioapp.fr",
+   "hl": [
+    "flamio",
+    "gratuit"
+   ]
+  }
+ ]
+}
