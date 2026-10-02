@@ -1,0 +1,96 @@
+{
+ "length": 0.9,
+ "scenes": [
+  {
+   "type": "hook",
+   "pill": "DÉMO FLAMIO",
+   "title": "Vous savez\ncombien de clients\n*reviennent* ?",
+   "sub": "Voilà ce que voit un gérant.",
+   "size": 104,
+   "deco": "?",
+   "say": "Vous savez combien de clients reviennent chez vous ? Voilà ce que voit un gérant avec Flamio.",
+   "cap": "Combien de clients reviennent chez vous ?",
+   "hl": [
+    "reviennent"
+   ]
+  },
+  {
+   "type": "phone_dash",
+   "pill": "TABLEAU DE BORD",
+   "title": "Tout est *là*",
+   "kpis": [
+    [
+     "CLIENTS FIDÈLES",
+     128,
+     ""
+    ],
+    [
+     "PASSAGES",
+     342,
+     ""
+    ],
+    [
+     "NOUVEAUX AVIS",
+     5,
+     ""
+    ],
+    [
+     "SMS ENVOYÉS",
+     60,
+     ""
+    ]
+   ],
+   "bars": [
+    0.35,
+    0.5,
+    0.42,
+    0.6,
+    0.7,
+    0.62,
+    0.85,
+    1
+   ],
+   "chip": "📈 En un coup d'œil",
+   "say": "Clients fidèles, passages, avis Google, SMS envoyés. Tout est dans un seul tableau de bord.",
+   "cap": "Clients, passages, avis, SMS. Tout dans un seul tableau de bord.",
+   "hl": [
+    "tableau"
+   ]
+  },
+  {
+   "type": "tips",
+   "pill": "RÉSULTAT",
+   "title": "Vous pilotez,\npas vous *devinez*",
+   "items": [
+    [
+     "📊",
+     "Qui *revient*"
+    ],
+    [
+     "📅",
+     "Quels *jours* sont creux"
+    ],
+    [
+     "💬",
+     "Qui *relancer*"
+    ]
+   ],
+   "say": "Vous voyez qui revient, quels jours sont creux, et qui relancer.",
+   "cap": "Qui revient, quels jours sont creux, qui relancer.",
+   "hl": [
+    "revient,",
+    "relancer."
+   ]
+  },
+  {
+   "type": "cta",
+   "title": "Essayez\n*gratuitement*",
+   "say": "Flamio, le programme de fidélité pour les snacks. Essayez gratuitement pendant un mois, sur flamio app point f r.",
+   "cap": "Flamio. Essai gratuit un mois, sur flamioapp.fr",
+   "hl": [
+    "flamio",
+    "gratuit"
+   ]
+  }
+ ]
+}
