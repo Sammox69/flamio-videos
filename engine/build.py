@@ -162,7 +162,7 @@ for i,sc in enumerate(scenes):
         S(st+.12,impact(1.3),.55); S(st+.25,sparkle(),.1); S(st+.18,lp(crash(1.5),6000),.12)
         for k in range(6): S(st+.35+.06*k,soft(380*1.07**k,.06),.22)
         for k in range(wc[sid]): S(st+.2+WORD0+WSTEP*k+.1,soft(430+20*k,.1),.35)
-        S(st+ev["url"],soft(460,.14),.55); S(st+ev["url"]-.079,NOTIF[:int(1.6*SR)]*np.linspace(1,0,int(1.6*SR)),.45)
+        S(st+ev["url"],soft(460,.14),.55); S(st+ev["url"]-.079,(lambda x:x*np.linspace(1,0,len(x)))(NOTIF[:int(1.6*SR)]),.45)
 
 # ---------- music ----------
 BPM=124; beat=60/BPM; step=beat/4
