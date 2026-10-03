@@ -13,7 +13,7 @@ Conseils (types : hook + tips ou phone_* + cta)
 11. Combien vaut un client qui revient 15 fois de plus (exemple chiffré présenté comme exemple)
 12. Le premier avis Google : comment en obtenir 10 en un mois
 Démos de l'app (types : phone_loyalty, phone_sms, phone_review, phone_dash)
-13. Démo : le client scanne le QR code et gagne ses points
+13. Démo : le client scanne le QR code et gagne ses points (fait)
 14. Démo : le tableau de bord du gérant
 15. Démo : un SMS automatique d'anniversaire
 16. Démo : la demande d'avis Google après le repas
