@@ -42,13 +42,13 @@ canvas{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:
 #rays{position:absolute;left:-60px;top:-30px;width:520px;height:520px;border-radius:50%;background:conic-gradient(from 0deg,rgba(255,138,61,.0),rgba(255,138,61,.35),rgba(255,138,61,0) 12%,rgba(255,138,61,.35) 25%,rgba(255,138,61,0) 37%,rgba(255,138,61,.35) 50%,rgba(255,138,61,0) 62%,rgba(255,138,61,.35) 75%,rgba(255,138,61,0) 87%);-webkit-mask-image:radial-gradient(circle,#000 20%,transparent 68%);mask-image:radial-gradient(circle,#000 20%,transparent 68%);opacity:0}
 .shine{position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg)}
 
-.tcard{display:flex;align-items:center;gap:26px;background:#fff;color:#2a1a12;border-radius:32px;padding:30px 36px;margin-bottom:22px;box-shadow:0 20px 50px rgba(0,0,0,.45);opacity:0}
-.tcard .ti{font-size:62px;flex:none}.tcard b{font-size:42px;font-weight:800;line-height:1.15}
+.tcard{display:flex;align-items:center;gap:30px;background:#fff;color:#2a1a12;border-radius:36px;padding:38px 40px;margin-bottom:26px;box-shadow:0 20px 50px rgba(0,0,0,.45);opacity:0}
+.tcard .ti{font-size:76px;flex:none}.tcard b{font-size:52px;font-weight:800;line-height:1.15}
 .kgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
 .kpi{background:#fff;border:2px solid #f0e2d8;border-radius:20px;padding:14px 16px}.kpi .kv{font-weight:900;font-size:44px;line-height:1.05}.kpi .kl{font-weight:800;font-size:15px;color:#9a7a68;letter-spacing:1px}
 .bars{display:flex;align-items:flex-end;gap:10px;height:200px;margin-top:14px;background:#fff;border:2px solid #f0e2d8;border-radius:20px;padding:16px}
 .bars i{flex:1;border-radius:8px 8px 0 0;background:linear-gradient(180deg,var(--o2),var(--o));height:0}
-.qm{position:absolute;right:-30px;top:60px;font-weight:900;font-size:900px;line-height:1;color:transparent;-webkit-text-stroke:6px rgba(255,90,31,.22)}.rays{position:absolute;left:-60px;top:-30px;width:520px;height:520px;border-radius:50%;background:conic-gradient(from 0deg,rgba(255,138,61,0),rgba(255,138,61,.35),rgba(255,138,61,0) 12%,rgba(255,138,61,.35) 25%,rgba(255,138,61,0) 37%,rgba(255,138,61,.35) 50%,rgba(255,138,61,0) 62%,rgba(255,138,61,.35) 75%,rgba(255,138,61,0) 87%);-webkit-mask-image:radial-gradient(circle,#000 20%,transparent 68%);mask-image:radial-gradient(circle,#000 20%,transparent 68%);opacity:0}.chip{opacity:0}</style></head><body><div id="stage"><div id="glow"></div><canvas id="bgc" width="1080" height="1920"></canvas><canvas id="fgc" width="1080" height="1920"></canvas><div id="cap"><span></span></div><div id="wipe"></div><div id="debug"></div></div>
+.qm{position:absolute;right:-30px;top:60px;font-weight:900;font-size:900px;line-height:1;color:transparent;-webkit-text-stroke:6px rgba(255,90,31,.22)}.rays{position:absolute;left:-60px;top:-30px;width:520px;height:520px;border-radius:50%;background:conic-gradient(from 0deg,rgba(255,138,61,0),rgba(255,138,61,.35),rgba(255,138,61,0) 12%,rgba(255,138,61,.35) 25%,rgba(255,138,61,0) 37%,rgba(255,138,61,.35) 50%,rgba(255,138,61,0) 62%,rgba(255,138,61,.35) 75%,rgba(255,138,61,0) 87%);-webkit-mask-image:radial-gradient(circle,#000 20%,transparent 68%);mask-image:radial-gradient(circle,#000 20%,transparent 68%);opacity:0}.chip{opacity:0}</style></head><body><div id="stage"><div id="glow"></div><canvas id="bgc" width="1080" height="1920"></canvas><canvas id="fgc" width="1080" height="1920"></canvas><div id="cap"><span></span></div><div id="wipe"></div><div id="flash" style="position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,#ffb347,#ff5a1f 60%);opacity:0;z-index:25;pointer-events:none"></div><div id="debug"></div></div>
 <script>
 const E={out:t=>1-Math.pow(1-t,3),back:t=>{const c=1.9;return 1+(c+1)*Math.pow(t-1,3)+c*Math.pow(t-1,2)},io:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
@@ -58,7 +58,7 @@ const mk=s=>(s||'').replace(/\*([^*]+)\*/g,'<span class="o">$1</span>').replace(
 const pill=s=>`<span class="pill">${s}</span>`;
 const logo='<div class="lg">Flam<span class="o">io</span></div>';
 const T={
- hook:s=>`${s.deco?`<div class="qm">${s.deco}</div>`:''}<div class="top" style="margin-bottom:0;gap:34px;position:relative">${pill(s.pill)}<div class="h tw" style="font-size:${s.size||128}px">${mk(s.title)}</div><div class="sub hsub" style="max-width:740px">${mk(s.sub)}</div></div>`,
+ hook:s=>`${s.deco?`<div class="qm">${s.deco}</div>`:''}<div class="top" style="margin-bottom:0;gap:34px;position:relative"><span class="pill" style="font-size:34px;padding:14px 32px">${s.pill}</span><div class="h tw" style="font-size:${s.size||128}px">${mk(s.title)}</div><div class="sub hsub" style="max-width:740px">${mk(s.sub)}</div></div>`,
  phone_loyalty:s=>`<div class="top">${pill(s.pill)}<div class="h t tw">${mk(s.title)}</div></div><div class="wrap"><div class="phone"><div class="screen"><div class="sb"><b>12:31</b><span>●●●</span></div>${logo}<div class="ss">${s.brand||'VOTRE SNACK'}</div><div class="box"><div class="ss">VOS POINTS</div><div class="big"><span class="pts">${s.p0}</span><small> pts</small></div><div class="track"><i class="pb"></i></div><div class="ss pnext" style="margin-top:8px">Prochain cadeau : ${s.goal} (${s.p1} pts)</div></div><div class="ss" style="margin:18px 0 8px">VOS CADEAUX</div>${s.rewards.map((r,i)=>`<div class="row${i==s.rewards.length-1?' last':''}"><span>${r[0]}</span><b>${r[1]}</b><em>${r[2]} pts</em></div>`).join('')}</div></div><div class="chip c1" style="right:-40px;top:200px">${s.chip}</div></div>`,
  phone_sms:s=>`<div class="top">${pill(s.pill)}<div class="h t tw">${mk(s.title)}</div></div><div class="wrap"><div class="phone dark"><div class="screen lock"><div class="ss" style="text-align:center;color:#d9c3b4;margin-top:20px">${s.date||'vendredi 9 octobre'}</div><div class="clock">18:02</div>${s.msgs.map(m=>`<div class="notif"><div class="ni">${m[0]}</div><div><div class="ss">${m[1]}</div><div class="nt">${m[2]}</div></div></div>`).join('')}</div></div><div class="chip c1" style="right:-10px;top:600px">${s.chip}</div></div>`,
  phone_review:s=>`<div class="top">${pill(s.pill)}<div class="h t tw">${mk(s.title)}</div></div><div class="wrap"><div class="phone"><div class="screen"><div class="sb"><b>13:05</b><span>●●●</span></div>${logo}<div class="box" style="margin-top:34px;text-align:center"><div style="font-weight:900;font-size:34px">Votre avis compte !</div><div class="ss" style="margin:8px 0 22px;font-size:20px;letter-spacing:0;font-weight:600">${s.question||"Comment s'est passé votre repas ?"}</div><div style="display:flex;gap:30px;justify-content:center"><div class="th g thup">👍</div><div class="th r">👎</div></div><div class="ss plus2" style="margin-top:20px;color:#1f9d55;opacity:0">${s.plus||'+2 points pour votre avis'}</div></div></div></div><div class="chip c1" style="right:-50px;top:70px"><span class="stars"><i>★</i><i>★</i><i>★</i><i>★</i><i>★</i></span> ${s.chip||'Avis Google'}</div></div>`,
@@ -88,14 +88,15 @@ function seek(t){
  TL.scenes.forEach((sc,si)=>{
   const el=$('#'+sc.id),lt=t-sc.start,dur=sc.end-sc.start,vis=t>=sc.start&&t<sc.end;
   if(!vis){el.style.visibility='hidden';el.style.opacity=0;return}el.style.visibility='visible';el.style.opacity=1;
-  el.style.transform=`scale(${1+.035*clamp(lt/dur)})`;
-  SA(el,'.tw .w').forEach((w,i)=>{const p=pop(lt,WORD0+WSTEP*i,.45);w.style.opacity=clamp(p*2);w.style.transform=`translateY(${(1-p)*70}px) scale(${.6+.4*p}) rotate(${(1-p)*-5}deg)`});
-  SA(el,'.pill').forEach(p=>{const q=pop(lt,.1,.4);p.style.opacity=clamp(q*2);p.style.transform=`scale(${.7+.3*q})`});
+  el.style.transform=sc.type==='hook'?`scale(${1+.05*(1-E.out(clamp(lt/.35)))+.03*clamp(lt/dur)})`:`scale(${1+.035*clamp(lt/dur)})`;
+  if(sc.type==='hook'){const q0=E.out(clamp(lt/.28));SA(el,'.tw .w').forEach((w,i)=>{const hl=w.classList.contains('o')||w.parentElement.classList.contains('o');const pk=hl?Math.max(0,Math.sin(clamp((lt-.32)/.3)*3.14159))*.14:0;w.style.opacity=1;w.style.transform=`scale(${1+.16*(1-q0)+pk})`});SA(el,'.pill').forEach(p=>{p.style.opacity=1;p.style.transform='none'})}
+  else{SA(el,'.tw .w').forEach((w,i)=>{const p=pop(lt,WORD0+WSTEP*i,.45);w.style.opacity=clamp(p*2);w.style.transform=`translateY(${(1-p)*70}px) scale(${.6+.4*p}) rotate(${(1-p)*-5}deg)`});
+  SA(el,'.pill').forEach(p=>{const q=pop(lt,.1,.4);p.style.opacity=clamp(q*2);p.style.transform=`scale(${.7+.3*q})`})}
   const ev=sc.ev||{};const ph=S(el,'.phone');
   if(ph){const q=pop(lt,.35,.7);ph.style.transform=`translateY(${(1-q)*520+Math.sin(t*2)*5}px) rotate(${(1-q)*8+Math.sin(t*1.3)*.7}deg)`}
   const chip=S(el,'.c1');
   const chipAt=(t0)=>{if(!chip)return;const q=pop(lt,t0,.5);chip.style.opacity=clamp(q*2);chip.style.transform=`scale(${.4+.6*q}) rotate(${(1-q)*-10}deg)`};
-  if(sc.type==='hook'){const q=S(el,'.qm');if(q)q.style.transform=`rotate(${10+Math.sin(t*.8)*3}deg) scale(${1+.04*Math.sin(t*2)})`;const s=S(el,'.hsub');const p=pop(lt,1.2,.5);s.style.opacity=clamp(p*2);s.style.transform=`translateY(${(1-p)*30}px)`}
+  if(sc.type==='hook'){const q=S(el,'.qm');if(q)q.style.transform=`rotate(${10+Math.sin(t*.8)*3}deg) scale(${1+.04*Math.sin(t*2)})`;const s=S(el,'.hsub');const p=pop(lt,.55,.4);s.style.opacity=clamp(p*2);s.style.transform=`translateY(${(1-p)*30}px)`}
   if(sc.type==='phone_loyalty'){
    const p0=+sc.p.p0,p1=+sc.p.p1;const f=clamp((lt-ev.fill0)/(ev.fill1-ev.fill0));const base=E.out(clamp((lt-.7)/.8));
    S(el,'.pts').textContent=lt>=ev.fill0?Math.round(p0+(p1-p0)*E.io(f)):p0;
@@ -128,6 +129,7 @@ function seek(t){
    S(el,'.shine').style.left=(-60+180*clamp((lt-ev.url-.4)%1.6/.7))+'%';
    sparkles(fg,t,sc.start+.2,200,750,16,77);burst(fg,t,sc.start+.15,200,880,40,5,780);}
  });
+ $('#flash').style.opacity=t<.22?.55*(1-t/.22):0;
  let wx=-3000;TL.scenes.forEach((sc,i)=>{if(i===TL.scenes.length-1)return;const p=(t-(sc.end-.24))/.48;if(p>=0&&p<=1)wx=-1700+E.io(p)*3400});
  $('#wipe').style.transform=`translateX(${wx}px) rotate(14deg)`;
  const cap=TL.caps.find(c=>t>=c.s&&t<c.e);const cs=$('#cap span');

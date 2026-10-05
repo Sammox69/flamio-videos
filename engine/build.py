@@ -3,7 +3,7 @@ import sherpa_onnx
 from scipy.signal import butter,sosfilt
 from playwright.sync_api import sync_playwright
 HERE=os.path.dirname(os.path.abspath(__file__)); TTS=os.path.join(HERE,"models")+"/"
-SR=44100; FPS=30; PAD=0.4; WORD0=.22; WSTEP=.09
+SR=44100; FPS=30; PAD=0.25; WORD0=.22; WSTEP=.09
 spec=json.load(open(sys.argv[1])); out=sys.argv[2]; debug=len(sys.argv)>3 and sys.argv[3]=="debug"
 os.makedirs("work",exist_ok=True)
 rs=np.random.RandomState(7)
@@ -15,7 +15,10 @@ voices=[]
 for s in spec["scenes"]:
     g=tts.generate(s["say"],sid=0,speed=1.0); w=np.array(g.samples,dtype=np.float32)
     assert g.sample_rate==SR
-    voices.append(w/max(1e-6,np.abs(w).max())*0.9)
+    w=w/max(1e-6,np.abs(w).max())*0.9
+    idx=np.where(np.abs(w)>0.04)[0]
+    if len(idx): w=w[max(0,idx[0]-int(.02*SR)):idx[-1]+int(.06*SR)]
+    voices.append(w)
 
 # ---------- page: word counts ----------
 pw=sync_playwright().start(); br=pw.chromium.launch(); pg=br.new_page(viewport={"width":1080,"height":1920})
@@ -26,9 +29,10 @@ wc=pg.evaluate("s=>buildScenes(s)",spec["scenes"])
 scenes=[];caps=[];t=0.0;hits=[];vstarts=[]
 N=len(spec["scenes"])
 for i,(s,w) in enumerate(zip(spec["scenes"],voices)):
-    d=len(w)/SR; tail=0.35 if i<N-1 else 1.7
-    start=t; vs=start+PAD; end=vs+d+tail; sid="s%d"%(i+1); ty=s["type"]
+    d=len(w)/SR; tail=0.22 if i<N-1 else 1.3
+    start=t; pd=0.04 if i==0 else PAD; vs=start+pd; end=vs+d+tail; sid="s%d"%(i+1); ty=s["type"]
     ev={}
+    PADs=PAD if i else 0.04
     if ty=="phone_loyalty": ev["fill0"]=PAD+d*.5; ev["fill1"]=ev["fill0"]+.9; ev["unlock"]=ev["fill1"]+.05
     if ty=="phone_sms": ev["n1"]=PAD+d*.5; ev["n2"]=ev["n1"]+.8; ev["chip"]=ev["n2"]+.4
     if ty=="phone_review": ev["press"]=PAD+d*.55; ev["stars"]=ev["press"]+.35
@@ -53,7 +57,7 @@ total=t
 for sc in scenes:
     st=sc["start"]; ty=sc["type"]; sid=sc["id"]
     if ty=="hook":
-        for k in range(wc[sid]): hits.append({"t":st+WORD0+WSTEP*k+.2,"a":9})
+        hits.append({"t":st+.02,"a":16}); hits.append({"t":st+.34,"a":8})
     if ty=="cta": hits.append({"t":st+.3,"a":20})
     if ty=="phone_loyalty": hits.append({"t":st+sc["ev"]["unlock"],"a":9})
     if ty=="phone_review": hits.append({"t":st+sc["ev"]["press"],"a":6})
@@ -136,10 +140,11 @@ for i,sc in enumerate(scenes):
     st=sc["start"]; sid=sc["id"]; ev=sc["ev"]; ty=sc["type"]
     if i<N-1:
         S(sc["end"]-.494,SWOOSH,.85); S(sc["end"]+.0,thud(),.3)
+    if ty=="hook": S(st+.0,impact(.7),.6); S(st+.0,SWOOSH[int(.35*SR):int(.85*SR)],.5)
     if i>0 and ty!="cta": S(st+.38,SWOOSH[:int(.8*SR)]*np.linspace(1,0,int(.8*SR))**1.5,.22)
     for k in range(wc[sid]):
         tt=st+WORD0+WSTEP*k+.1
-        if ty=="hook": S(tt,soft(300+25*k,.12),.6); S(tt+.02,thud(),.4)
+        if ty=="hook": pass
         elif ty!="cta": S(tt,soft(420+20*k,.1),.35)
     if ty=="phone_loyalty":
         for k in range(11): S(st+ev["fill0"]+k*.09,soft(380*1.05**k,.06),.28)
@@ -165,31 +170,41 @@ for i,sc in enumerate(scenes):
         S(st+ev["url"],soft(460,.14),.55); S(st+ev["url"]-.079,(lambda x:x*np.linspace(1,0,len(x)))(NOTIF[:int(1.6*SR)]),.45)
 
 # ---------- music ----------
-BPM=124; beat=60/BPM; step=beat/4
+# 6 styles (spec["music"] = 0..5) : tempo, accords, basses, motifs de batterie
+MUSICS=[
+ dict(bpm=124,chords=[[220,261.6,329.6],[174.6,220,261.6],[261.6,329.6,392],[196,246.9,293.7]],roots=[55,43.65,65.4,49],kick=(0,4,8,12),clap=(4,12),hat=(0,2,4,6,8,10,12,14),bass=(2,3,6,10,11,14),arp=False),
+ dict(bpm=96,chords=[[261.6,311.1,392],[207.7,261.6,311.1],[311.1,392,466.2],[233.1,293.7,349.2]],roots=[65.4,51.9,77.8,58.3],kick=(0,7,10),clap=(4,12),hat=(0,2,4,6,8,10,12,14),bass=(0,7,10,14),arp=False),
+ dict(bpm=112,chords=[[293.7,349.2,440],[233.1,293.7,349.2],[174.6,220,261.6],[261.6,329.6,392]],roots=[73.4,58.3,43.65,65.4],kick=(0,6,8,11),clap=(4,12),hat=tuple(range(0,16,1)),bass=(0,3,6,8,11,14),arp=True),
+ dict(bpm=128,chords=[[164.8,196,246.9],[261.6,329.6,392],[196,246.9,293.7],[146.8,185,220]],roots=[41.2,65.4,49,36.7],kick=(0,4,8,12),clap=(4,12),hat=(2,6,10,14),bass=(2,6,10,14),arp=False),
+ dict(bpm=88,chords=[[349.2,440,523.3],[329.6,392,493.9],[293.7,349.2,440],[261.6,329.6,392]],roots=[43.65,41.2,36.7,32.7],kick=(0,10),clap=(8,),hat=(0,4,8,12),bass=(0,10),arp=True),
+ dict(bpm=118,chords=[[220,277.2,329.6],[246.9,293.7,370],[196,246.9,293.7],[185,220,277.2]],roots=[55,61.7,49,46.2],kick=(0,3,8,11),clap=(4,12),hat=(0,2,4,6,8,10,12,14),bass=(0,3,6,8,11,14),arp=True),
+]
+M=MUSICS[int(spec.get("music",0))%len(MUSICS)]
+BPM=M["bpm"]; beat=60/BPM; step=beat/4
 mus=np.zeros(n,dtype=np.float64); drums=np.zeros(n,dtype=np.float64)
-chords=[[220,261.6,329.6],[174.6,220,261.6],[261.6,329.6,392],[196,246.9,293.7]]
-roots=[55,43.65,65.4,49]
+chords=M["chords"]; roots=M["roots"]
 s2s=scenes[min(1,N-1)]["start"]; s3s=scenes[min(2,N-1)]["start"]; s5s=scenes[-1]["start"]
 nsteps=int(total/step)+2
 kk=kick(); cl=clap();
 for i in range(nsteps):
-    t0=i*step+.15
+    t0=i*step
     if t0>total: break
     bar=(i//16)%4; sp=i%16
     full=t0>=s5s; mid=t0>=s2s; arpon=t0>=s3s
-    if sp%4==0: put(drums,t0,kk,.55 if t0>.3 else 0)
-    if sp in (4,12) and mid: put(drums,t0,cl,.28)
-    if sp%2==0 and t0>.3: put(drums,t0,hat(.05 if sp%4 else .07),.12 if sp%4==2 else .06)
-    if full and sp%2==1: put(drums,t0,hat(.03),.1)
-    if mid and sp in (2,3,6,10,11,14): put(mus,t0,bassn(roots[bar]*(2 if sp in (3,11) else 1)),.38)
+    if sp in M["kick"]: put(drums,t0,kk,.55)
+    if sp in M["clap"] and mid: put(drums,t0,cl,.28)
+    if sp in M["hat"] and t0>.3: put(drums,t0,hat(.05 if sp%4 else .07),(.12 if sp%4==2 else .06) if len(M["hat"])<16 else (.07 if sp%4==0 else .03))
+    if full and sp%2==1 and len(M["hat"])<16: put(drums,t0,hat(.03),.1)
+    if mid and sp in M["bass"]: put(mus,t0,bassn(roots[bar]*(2 if sp in (3,11) else 1)),.38)
+    if M["arp"] and mid and sp%2==0: put(mus,t0,pluck(chords[bar][(sp//2)%3]*2,.2),.07)
     if sp==0 and i%16==0:
         put(mus,t0,pad(chords[bar],step*16),.16 if not full else .22)
     if sp==0 and i%64==0 and (t0>=s2s-.2) and (abs(t0-s2s)<2 or abs(t0-s5s)<2): put(drums,t0,crash(1.2),.2)
 put(drums,s2s,lp(crash(1.2),7000),.08); put(drums,s5s,lp(crash(1.6),7000),.1)
 tt=np.arange(n)/SR
-pump=1-.55*np.exp(-((tt-.15)%beat)*9)
+pump=1-.55*np.exp(-(tt%beat)*9)
 music=lp(drums+mus*pump,8000)
-fade=np.clip((total-tt)/1.0,0,1)*np.clip(tt/.4,0,1); music*=fade
+fade=np.clip((total-tt)/1.0,0,1)*np.clip(tt/.08,0,1); music*=fade
 
 # ---------- voice track + EQ ----------
 vtrack=np.zeros(n,dtype=np.float64)
