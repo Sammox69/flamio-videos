@@ -23,14 +23,55 @@ def say_fix(x):
 # ---------- voice ----------
 D=TTS+"vits-piper-fr_FR-tom-medium"
 tts=sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(vits=sherpa_onnx.OfflineTtsVitsModelConfig(model=D+"/fr_FR-tom-medium.onnx",tokens=D+"/tokens.txt",data_dir=D+"/espeak-ng-data",noise_scale=0.667,noise_scale_w=0.8,length_scale=spec.get("length",0.9)),num_threads=2)))
-voices=[]
-for s in spec["scenes"]:
-    g=tts.generate(say_fix(s["say"]),sid=0,speed=1.0); w=np.array(g.samples,dtype=np.float32)
-    assert g.sample_rate==SR
-    w=w/max(1e-6,np.abs(w).max())*0.9
-    idx=np.where(np.abs(w)>0.04)[0]
-    if len(idx): w=w[max(0,idx[0]-int(.02*SR)):idx[-1]+int(.06*SR)]
-    voices.append(w)
+def cb_voices():
+    """Voix de Sam clonée (Chatterbox, CPU). Génère phrase par phrase, coupe les silences, enchaîne fluide."""
+    import torch,time
+    from scipy.signal import resample_poly
+    from chatterbox.mtl_tts import ChatterboxMultilingualTTS
+    ref=os.path.join(os.path.dirname(os.path.abspath(__file__)),"ref_voice.wav")
+    assert os.path.exists(ref),"ref_voice.wav absent"
+    torch.set_num_threads(os.cpu_count() or 2)
+    m=ChatterboxMultilingualTTS.from_pretrained(device="cpu"); out=[]
+    def clean(x):
+        x=x.astype(np.float32); a=np.abs(x); k=int(.02*m.sr)
+        e=np.convolve(a,np.ones(k)/k,mode="same"); idx=np.where(e>0.012)[0]
+        if len(idx)==0: return x
+        x=x[max(0,idx[0]-int(.03*m.sr)):idx[-1]+int(.08*m.sr)]
+        return x
+    for s in spec["scenes"]:
+        sents=[z.strip() for z in re.split(r"(?<=[.!?])\s+",s["say"]) if z.strip()]
+        parts=[]
+        for z in sents:
+            best=None
+            for tr in range(3):
+                w=m.generate(z,language_id="fr",audio_prompt_path=ref,exaggeration=0.5,cfg_weight=0.4).squeeze().numpy()
+                w=clean(w); dur=len(w)/m.sr; nw=len(z.split())
+                ok=0.17*nw<=dur<=0.55*nw+0.8
+                if best is None or ok: best=w
+                if ok: break
+            parts.append(best)
+        gap=np.zeros(int(.07*m.sr),dtype=np.float32); fade=int(.012*m.sr); seq=[]
+        for i,w in enumerate(parts):
+            w=w.copy(); w[:fade]*=np.linspace(0,1,fade); w[-fade:]*=np.linspace(1,0,fade)
+            seq.append(w)
+            if i<len(parts)-1: seq.append(gap)
+        w=np.concatenate(seq); w=resample_poly(w,SR,m.sr).astype(np.float32)
+        out.append(w/max(1e-6,np.abs(w).max())*0.9)
+    return out
+
+voices=None
+if os.environ.get("VOICE","piper")=="chatterbox":
+    try: voices=cb_voices(); print("VOIX: chatterbox (voix de Sam)")
+    except Exception as e: print("VOIX: chatterbox KO -> piper:",repr(e)); voices=None
+if voices is None:
+    voices=[]
+    for s in spec["scenes"]:
+        g=tts.generate(say_fix(s["say"]),sid=0,speed=1.0); w=np.array(g.samples,dtype=np.float32)
+        assert g.sample_rate==SR
+        w=w/max(1e-6,np.abs(w).max())*0.9
+        idx=np.where(np.abs(w)>0.04)[0]
+        if len(idx): w=w[max(0,idx[0]-int(.02*SR)):idx[-1]+int(.06*SR)]
+        voices.append(w)
 
 # ---------- page: word counts ----------
 pw=sync_playwright().start(); br=pw.chromium.launch(); pg=br.new_page(viewport={"width":1080,"height":1920})

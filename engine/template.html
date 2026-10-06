@@ -43,7 +43,7 @@ canvas{position:absolute;left:0;top:0;width:1080px;height:1920px;pointer-events:
 .shine{position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg)}
 
 .tcard{display:flex;align-items:center;gap:30px;background:#fff;color:#2a1a12;border-radius:36px;padding:38px 40px;margin-bottom:26px;box-shadow:0 20px 50px rgba(0,0,0,.45);opacity:0}
-.tcard .ti{font-size:76px;flex:none}.tcard b{font-size:52px;font-weight:800;line-height:1.15}
+.tcard .ti{font-size:76px;flex:none}.tcard b{font-size:52px;overflow-wrap:normal;word-break:keep-all;font-weight:800;line-height:1.15}
 .kgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
 .kpi{background:#fff;border:2px solid #f0e2d8;border-radius:20px;padding:14px 16px}.kpi .kv{font-weight:900;font-size:44px;line-height:1.05}.kpi .kl{font-weight:800;font-size:15px;color:#9a7a68;letter-spacing:1px}
 .bars{display:flex;align-items:flex-end;gap:10px;height:200px;margin-top:14px;background:#fff;border:2px solid #f0e2d8;border-radius:20px;padding:16px}
@@ -54,7 +54,7 @@ const E={out:t=>1-Math.pow(1-t,3),back:t=>{const c=1.9;return 1+(c+1)*Math.pow(t
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const $=s=>document.querySelector(s);
 function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-const mk=s=>(s||'').replace(/\*([^*]+)\*/g,'<span class="o">$1</span>').replace(/\n/g,'<br>');
+const mk=s=>(s||'').replace(/Q\s?R[\s\u00a0]+code/gi,'<span style="white-space:nowrap">QR\u00a0code</span>').replace(/\*([^*]+)\*/g,'<span class="o">$1</span>').replace(/\n/g,'<br>');
 const pill=s=>`<span class="pill">${s}</span>`;
 const logo='<div class="lg">Flam<span class="o">io</span></div>';
 const T={
