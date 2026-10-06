@@ -4,7 +4,7 @@ But : 1 vidéo verticale 9:16 de 15 à 25 secondes par jour, publiée sur TikTok
 
 ## Règles de fond (à ne jamais enfreindre)
 - Aucun chiffre de résultat inventé (« +30 % de clients » interdit). Les chiffres d'illustration sont autorisés seulement s'ils sont présentés comme exemple (« Exemple », « Par exemple »).
-- Faits autorisés sur Flamio : programme de fidélité par scan de QR code (sans appli à télécharger), points et cadeaux, défis de fréquence, SMS automatiques (clients inactifs, anniversaires), tableau de bord (clients fidèles, passages, avis Google, SMS), demande d'avis Google, parrainage, visibilité sur TikTok. Offre : essai gratuit 1 mois, sans engagement. Prix cités uniquement dans une vidéo « offre » : 149 € par mois et par restaurant, ou 1 490 € par an (2 mois offerts).
+- Faits autorisés sur Flamio : programme de fidélité par scan de QR code (sans appli à télécharger), points et cadeaux, défis de fréquence, SMS automatiques (clients inactifs), tableau de bord (clients fidèles, passages, avis Google, SMS), demande d'avis Google, parrainage, visibilité sur TikTok. Offre : essai gratuit 1 mois, sans engagement. Prix cités uniquement dans une vidéo « offre » : 149 € par mois et par restaurant, ou 1 490 € par an (2 mois offerts).
 - Ne pas critiquer de concurrent nommé. Pas de promesse médicale/juridique.
 - Une vidéo ne répète pas un sujet déjà présent dans `content_log.json` (cf. `topics.md`).
 

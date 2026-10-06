@@ -23,3 +23,6 @@ Durée 22 à 34 s, 1080x1920, audio présent, -18 à -12 LUFS. Extraire les imag
 La voix française lit mal les mots anglais (« burger » devenait « burgé »). build.py applique automatiquement un dictionnaire de respellings au texte "say" (burger, tacos, kebab, bubble tea, food truck, fast-food, Google, wifi, cheese, brunch, milkshake, ketchup, sandwich, nuggets, TikTok, YouTube, followers, like, live, reel, story, marketing, business...). Les sous-titres ("cap") et les titres gardent l'orthographe normale.
 Règle : dans "say", écris le mot normalement s'il est dans cette liste. Pour tout autre mot étranger ou inhabituel (marque, anglicisme), écris-le phonétiquement à la française dans "say" (ex. « ketchup » → « kétchoupe ») ou reformule avec un mot français. En cas de doute, évite le mot.
 Rappel : « S M S », « Q R code », « flamio app point f r » dans "say".
+
+## Fonctionnalité retirée : cadeaux et SMS d'anniversaire
+Les cadeaux et SMS d'anniversaire n'existent PLUS dans Flamio (info de Sam, 06/10). Ne jamais les mentionner (ni dans la voix, ni dans les titres, ni dans les SMS d'exemple à l'écran, ni dans la légende, ni dans les hashtags). Retire « SMS d'anniversaire » de la liste des thèmes de l'étape 3. Cette règle prime sur le PLAYBOOK et les instructions de la routine.
