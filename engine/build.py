@@ -8,12 +8,24 @@ spec=json.load(open(sys.argv[1])); out=sys.argv[2]; debug=len(sys.argv)>3 and sy
 os.makedirs("work",exist_ok=True)
 rs=np.random.RandomState(7)
 
+
+# ---------- prononciation : mots que la voix française lit mal -> écriture phonétique (voix uniquement, les sous-titres restent normaux)
+LEX=[(r"burgers?","beurgueur"),(r"tacos","takoss"),(r"k[ée]babs?","kébab"),(r"bubble\s*tea","bobeul ti"),(r"food[\s-]*trucks?","foude treuk"),
+ (r"fast[\s-]*foods?","faste foude"),(r"cheese","tchize"),(r"google","gougueul"),(r"wi-?fi","ouifi"),(r"brunch","breunch"),(r"milk-?shakes?","milkchèke"),
+ (r"ketchup","kétchoupe"),(r"smash","smache"),(r"topping","toping"),(r"sandwicheries","sandouicheri"),(r"sandwicherie","sandouicheri"),(r"sandwichs?","sandouiche"),(r"sandwiches","sandouiche"),
+ (r"nuggets","neugueutse"),(r"cookies?","kouki"),(r"e-?mails?","imèl"),(r"you-?tube","iou tube"),(r"tik-?tok","tik tok"),(r"followers?","folooweur"),
+ (r"likes?","laïke"),(r"lives?","laïve"),(r"reels?","ril"),(r"stor(?:y|ies)","stori"),(r"marketing","markétingue"),(r"business","bizness"),(r"feedbacks?","fidebak"),
+ (r"cashback","cache bak"),(r"drive","draïve"),(r"happy hour","appi aour"),(r"lunch","leunche"),(r"boost(?:er)?","bouste"),(r"check","chèque"),(r"hashtags?","ache tag"),(r"shorts","chorts")]
+def say_fix(x):
+    for p,r in LEX: x=re.sub(r"\b"+p+r"\b",r,x,flags=re.I)
+    return x
+
 # ---------- voice ----------
 D=TTS+"vits-piper-fr_FR-tom-medium"
 tts=sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(vits=sherpa_onnx.OfflineTtsVitsModelConfig(model=D+"/fr_FR-tom-medium.onnx",tokens=D+"/tokens.txt",data_dir=D+"/espeak-ng-data",noise_scale=0.667,noise_scale_w=0.8,length_scale=spec.get("length",0.9)),num_threads=2)))
 voices=[]
 for s in spec["scenes"]:
-    g=tts.generate(s["say"],sid=0,speed=1.0); w=np.array(g.samples,dtype=np.float32)
+    g=tts.generate(say_fix(s["say"]),sid=0,speed=1.0); w=np.array(g.samples,dtype=np.float32)
     assert g.sample_rate==SR
     w=w/max(1e-6,np.abs(w).max())*0.9
     idx=np.where(np.abs(w)>0.04)[0]

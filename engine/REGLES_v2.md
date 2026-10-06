@@ -16,3 +16,10 @@ Chaque spec contient "music": un entier de 0 à 5 (6 styles différents : 0 hous
 
 ## Contrôles
 Durée 22 à 34 s, 1080x1920, audio présent, -18 à -12 LUFS. Extraire les images n°3, n°130, n°400 (ffmpeg) et les regarder : aucun mot coupé, texte dans les marges (gauche 70 px, droite 160 px, haut 220 px, bas 450 px).
+
+## Hashtags (priorité sur le PLAYBOOK) : 5 MAXIMUM par post, jamais plus. #flamio + 4 liés au sujet.
+
+## Prononciation de la voix
+La voix française lit mal les mots anglais (« burger » devenait « burgé »). build.py applique automatiquement un dictionnaire de respellings au texte "say" (burger, tacos, kebab, bubble tea, food truck, fast-food, Google, wifi, cheese, brunch, milkshake, ketchup, sandwich, nuggets, TikTok, YouTube, followers, like, live, reel, story, marketing, business...). Les sous-titres ("cap") et les titres gardent l'orthographe normale.
+Règle : dans "say", écris le mot normalement s'il est dans cette liste. Pour tout autre mot étranger ou inhabituel (marque, anglicisme), écris-le phonétiquement à la française dans "say" (ex. « ketchup » → « kétchoupe ») ou reformule avec un mot français. En cas de doute, évite le mot.
+Rappel : « S M S », « Q R code », « flamio app point f r » dans "say".
