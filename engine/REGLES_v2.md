@@ -4,7 +4,7 @@
 Analyse TikTok du 05/10 : 93 % des spectateurs partaient à la 1re seconde, et Sam trouve les explications trop courtes : on ne comprend pas À QUI la vidéo s'adresse, QUEL est le problème, QUELLE est la solution, ni COMMENT l'utiliser.
 
 ## Structure obligatoire (5 scènes, 22 à 32 s au total, jamais plus de 34 s)
-1. hook (3 à 5 s parlées) : le "pill" nomme la CIBLE (ex. « GÉRANTS DE KEBAB », « PIZZERIAS ET SNACKS »). Le titre (3 lignes courtes, "size" 138 max) est une phrase tranchée sur une situation concrète. Le "say" commence par la cible (« Gérants de kebab. ») puis lit le titre mot pour mot, puis une courte phrase de résolution. Interdit : question vague, « Conseil/Astuce/Savez-vous » en 1er mot, chiffres inventés.
+1. hook (3 à 5 s parlées) : le "pill" nomme la CIBLE (ex. « GÉRANTS DE KEBAB », « PIZZERIAS ET SNACKS »). Le titre (3 lignes courtes, "size" 138 max) est une phrase tranchée sur une situation concrète. Le "say" commence par la cible (« Gérants de kebab. ») puis lit le titre mot pour mot, puis une courte phrase de résolution. Interdit : question vague ou générale, « Conseil/Astuce/Savez-vous » en 1er mot, chiffres de résultat inventés. (La forme du hook dépend du TYPE D'ACCROCHE imposé par la phase de test ci-dessous.)
 2. LE PROBLÈME (type "tips", pill « LE PROBLÈME ») : 3 cartes qui décrivent concrètement ce qui se passe chez le gérant. Le "say" explique le problème en 1 ou 2 phrases simples.
 3. LA SOLUTION (type phone_sms / phone_loyalty / phone_review / phone_dash, pill « LA SOLUTION ») : dit clairement que c'est Flamio et ce que Flamio fait pour résoudre CE problème.
 4. COMMENT ÇA MARCHE (type "tips", pill « COMMENT ÇA MARCHE », 3 étapes numérotées dans l'ordre : ce que fait le client, ce que fait Flamio, ce que voit/fait le gérant). N'utilise QUE les faits autorisés du PLAYBOOK (scan de QR code sans appli, points et cadeaux, SMS automatiques, tableau de bord, avis Google, parrainage). N'invente aucune étape d'installation, aucun délai (« en 5 minutes »), aucun prix hors vidéo OFFRE.
@@ -26,3 +26,16 @@ Rappel : « S M S », « Q R code », « flamio app point f r » dans "say".
 
 ## Fonctionnalité retirée : cadeaux et SMS d'anniversaire
 Les cadeaux et SMS d'anniversaire n'existent PLUS dans Flamio (info de Sam, 06/10). Ne jamais les mentionner (ni dans la voix, ni dans les titres, ni dans les SMS d'exemple à l'écran, ni dans la légende, ni dans les hashtags). Retire « SMS d'anniversaire » de la liste des thèmes de l'étape 3. Cette règle prime sur le PLAYBOOK et les instructions de la routine.
+
+## PHASE DE TEST DES ACCROCHES (du 08/10/2026 au 07/12/2026) — priorité sur la forme du hook ci-dessus
+Contexte : stats TikTok très faibles (1,3 s de visionnage moyen, 0,35 % jusqu'au bout). Stratégie de Sam : beaucoup de contenu, mais en testant des accroches DIFFÉRENTES pour apprendre ce qui retient. Chaque vidéo teste un TYPE d'accroche. Ajoute le champ "hook_type" (lettre A à F) au spec ET au journal.
+Les 6 types (la structure en 5 scènes, la cible dans le pill et les faits autorisés restent obligatoires) :
+- A "affirmation choc" : phrase tranchée sur une situation (« Il est venu une fois. Plus jamais. »).
+- B "question douloureuse" : question PRÉCISE sur un problème concret du gérant (« Combien de clients ne reviennent jamais chez vous ? »), jamais une question vague.
+- C "scène" : une mini-scène datée et concrète (« Il est 15 h. Votre snack est vide. »).
+- D "erreur à arrêter" : un ordre/interdit (« Arrêtez les cartes en papier. Voici pourquoi. »).
+- E "bénéfice direct" : la promesse de résultat sans chiffre (« Vos clients reviennent. Sans que vous leur parliez. »).
+- F "mythe" : on démonte une idée reçue (« Fidéliser coûte cher. Faux. »).
+Choix : lis le journal ; compte les "hook_type" déjà utilisés ; les 3 vidéos du jour utilisent 3 types différents, en prenant les types les MOINS utilisés jusque-là (à égalité, tire dans l'ordre alphabétique décalé d'un cran chaque jour). Les 3 vidéos du jour ne doivent pas non plus partager la même cible. La première vidéo de chaque type est écrite sans a priori ; ne force pas un type si les faits autorisés ne le permettent pas (change alors de thème, pas de type).
+Pendant la phase de test, ne favorise PAS un type d'après learnings.json (équilibre strict) ; utilise learnings.json seulement pour éviter les thèmes/cibles les plus faibles.
+APRÈS le 07/12/2026 : si learnings.json contient un classement des types (champ "classement_hook_type" et "phase":"decision"), consacre 2 vidéos sur 3 aux 2 meilleurs types et 1 sur 3 à un type moins utilisé (exploration), puis continue d'itérer.
