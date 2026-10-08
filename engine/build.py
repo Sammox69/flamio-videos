@@ -74,9 +74,11 @@ if voices is None:
         voices.append(w)
 
 # ---------- page: word counts ----------
-pw=sync_playwright().start(); br=pw.chromium.launch(); pg=br.new_page(viewport={"width":1080,"height":1920})
+pw=sync_playwright().start(); br=pw.chromium.launch(args=['--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']); pg=br.new_page(viewport={"width":1080,"height":1920})
 pg.goto("file://"+os.path.abspath("template.html")); pg.wait_for_timeout(400)
 wc=pg.evaluate("s=>buildScenes(s)",spec["scenes"])
+if any(x.get("d3") for x in spec["scenes"]):
+    pg.evaluate("1"); print("3D:", "ok" if pg.evaluate("(()=>{try{return !!initGL()}catch(e){return false}})()") else "indisponible - "+str(pg.evaluate("window.glErr")))
 
 # ---------- timeline ----------
 scenes=[];caps=[];t=0.0;hits=[];vstarts=[]

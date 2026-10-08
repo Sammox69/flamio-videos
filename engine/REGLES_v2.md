@@ -39,3 +39,11 @@ Les 6 types (la structure en 5 scènes, la cible dans le pill et les faits autor
 Choix : lis le journal ; compte les "hook_type" déjà utilisés ; les 3 vidéos du jour utilisent 3 types différents, en prenant les types les MOINS utilisés jusque-là (à égalité, tire dans l'ordre alphabétique décalé d'un cran chaque jour). Les 3 vidéos du jour ne doivent pas non plus partager la même cible. La première vidéo de chaque type est écrite sans a priori ; ne force pas un type si les faits autorisés ne le permettent pas (change alors de thème, pas de type).
 Pendant la phase de test, ne favorise PAS un type d'après learnings.json (équilibre strict) ; utilise learnings.json seulement pour éviter les thèmes/cibles les plus faibles.
 APRÈS le 07/12/2026 : si learnings.json contient un classement des types (champ "classement_hook_type" et "phase":"decision"), consacre 2 vidéos sur 3 aux 2 meilleurs types et 1 sur 3 à un type moins utilisé (exploration), puis continue d'itérer.
+
+## HOOK 3D (carte de fidélité animée) — test, environ 1 vidéo sur 3
+Sur la scène hook d'une vidéo, ajoute `"d3":true` pour afficher une carte de fidélité Flamio en 3D (jetons qui tombent, 10/10, particules) sous le sous-titre. Règles :
+- 1 vidéo sur 3 au maximum (une seule des 3 vidéos du jour), jamais plus. Compatible avec tous les types d'accroche A à F.
+- Avec d3 : "size" du hook = 104 (jamais plus), titre de 3 lignes maximum, pas de "deco" nécessaire. Optionnel : "reward" (texte de la carte pleine, défaut "CADEAU DÉBLOQUÉ"), "slots" (défaut 10), "brand".
+- Ajoute "d3":true/false au journal pour chaque vidéo (analyse hebdomadaire : comparer les vidéos d3 aux autres).
+- build.py affiche "3D: ok" ou "3D: indisponible". Si indisponible, la carte n'est simplement pas dessinée : continue normalement.
+- Le rendu 3D est plus lent (environ 3 à 4 minutes de plus par vidéo avec d3). Garde cela en tête dans le planning du rendu.
