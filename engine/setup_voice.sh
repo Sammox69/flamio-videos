@@ -1,8 +1,27 @@
 #!/usr/bin/env bash
 # Installe la voix clonée (Chatterbox, CPU). Si ça échoue, build.py retombe sur la voix Piper.
 cd "$(dirname "$0")"
-python3 -c "import chatterbox,torch;assert torch.__version__.endswith('+cpu')" 2>/dev/null && { echo "voice ok (déjà installé)"; exit 0; }
-pip install --break-system-packages -q chatterbox-tts==0.1.7 2>&1 | tail -2
-pip install --break-system-packages -q --force-reinstall --no-deps torch==2.11.0+cpu torchaudio==2.11.0+cpu --index-url https://download.pytorch.org/whl/cpu 2>&1 | tail -2
-pip install --break-system-packages -q transformers==5.2.0 2>&1 | tail -1
-python3 -c "import torch,chatterbox;from chatterbox.mtl_tts import ChatterboxMultilingualTTS;print('voice ok',torch.__version__)"
+PIP="pip install --break-system-packages -q"
+ERR=/tmp/voice_pip_err.log; : > $ERR
+ok(){ python3 -c "import torch,chatterbox;from chatterbox.mtl_tts import ChatterboxMultilingualTTS;assert torch.__version__.endswith('+cpu')" >/dev/null 2>&1; }
+if ok; then echo "voice ok (déjà installé)"; exit 0; fi
+python3 --version
+# 1) outils de build + dépendance qui compile (antlr4, requise par omegaconf) : avec et sans isolation
+$PIP -U setuptools wheel pip >>$ERR 2>&1
+$PIP antlr4-python3-runtime==4.9.3 >>$ERR 2>&1 || $PIP --no-build-isolation antlr4-python3-runtime==4.9.3 >>$ERR 2>&1 || { pip download --no-deps --no-binary :all: antlr4-python3-runtime==4.9.3 -d /tmp/antlr >>$ERR 2>&1; $PIP --no-build-isolation /tmp/antlr/*.tar.gz >>$ERR 2>&1; }
+# 2) chatterbox, puis torch CPU
+$PIP chatterbox-tts==0.1.7 >>$ERR 2>&1 || $PIP --no-build-isolation chatterbox-tts==0.1.7 >>$ERR 2>&1 || $PIP --no-deps chatterbox-tts==0.1.7 >>$ERR 2>&1
+$PIP --force-reinstall --no-deps torch==2.11.0+cpu torchaudio==2.11.0+cpu --index-url https://download.pytorch.org/whl/cpu >>$ERR 2>&1
+$PIP transformers==5.2.0 >>$ERR 2>&1
+# 3) dépendances manquantes éventuelles (si chatterbox installé sans deps)
+python3 - <<'PY' >>$ERR 2>&1
+import importlib,subprocess,sys
+for m,p in [("conformer","conformer"),("diffusers","diffusers"),("librosa","librosa"),("omegaconf","omegaconf"),("pykakasi","pykakasi"),("pyloudnorm","pyloudnorm"),("perth","resemble-perth"),("s3tokenizer","s3tokenizer"),("safetensors","safetensors"),("spacy_pkuseg","spacy-pkuseg")]:
+    try: importlib.import_module(m)
+    except Exception: subprocess.call([sys.executable,"-m","pip","install","--break-system-packages","-q",p])
+PY
+if ok; then echo "voice ok"; else
+  echo "ERREURS pip (extraits) :"; grep -aiE "error|failed|no matching|not found|could not" $ERR | tail -8 | cut -c1-300
+  python3 -c "import torch,chatterbox;from chatterbox.mtl_tts import ChatterboxMultilingualTTS" 2>&1 | tail -3 | cut -c1-300
+  echo "voice KO"
+fi
