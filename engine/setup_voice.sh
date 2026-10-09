@@ -6,6 +6,14 @@ ERR=/tmp/voice_pip_err.log; : > $ERR
 ok(){ python3 -c "import torch,chatterbox;from chatterbox.mtl_tts import ChatterboxMultilingualTTS;assert torch.__version__.endswith('+cpu')" >/dev/null 2>&1; }
 if ok; then echo "voice ok (déjà installé)"; exit 0; fi
 python3 --version
+# 0) wheels pures Python embarquées dans engine_v2.json (antlr4 ne compile pas sur le serveur de la routine)
+if [ -f engine_v2.json ]; then python3 - <<'PY' >>$ERR 2>&1
+import json,base64,os
+d=json.load(open("engine_v2.json")); os.makedirs("/tmp/whl",exist_ok=True)
+for k,v in d.items():
+    if k.startswith("whl/"): open("/tmp/whl/"+k[4:-4],"wb").write(base64.b64decode(v))
+PY
+$PIP --no-deps /tmp/whl/antlr4_python3_runtime-4.9.3-py3-none-any.whl /tmp/whl/omegaconf-2.3.0-py3-none-any.whl >>$ERR 2>&1; $PIP pyyaml >>$ERR 2>&1; fi
 # 1) outils de build + dépendance qui compile (antlr4, requise par omegaconf) : avec et sans isolation
 $PIP -U setuptools wheel pip >>$ERR 2>&1
 $PIP antlr4-python3-runtime==4.9.3 >>$ERR 2>&1 || $PIP --no-build-isolation antlr4-python3-runtime==4.9.3 >>$ERR 2>&1 || { pip download --no-deps --no-binary :all: antlr4-python3-runtime==4.9.3 -d /tmp/antlr >>$ERR 2>&1; $PIP --no-build-isolation /tmp/antlr/*.tar.gz >>$ERR 2>&1; }
