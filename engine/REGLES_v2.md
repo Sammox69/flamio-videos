@@ -47,3 +47,6 @@ Sur la scène hook d'une vidéo, ajoute `"d3":true` pour afficher une carte de f
 - Ajoute "d3":true/false au journal pour chaque vidéo (analyse hebdomadaire : comparer les vidéos d3 aux autres).
 - build.py affiche "3D: ok" ou "3D: indisponible". Si indisponible, la carte n'est simplement pas dessinée : continue normalement.
 - Le rendu 3D est plus lent (environ 3 à 4 minutes de plus par vidéo avec d3). Garde cela en tête dans le planning du rendu.
+
+## Voix de Sam (réglages validés le 10/10)
+build.py applique automatiquement : voix plus dynamique, pauses longues raccourcies, rythme +8 %, son nettoyé, et « f r » lu « effe erre » (écris toujours « flamio app point f r » dans "say").

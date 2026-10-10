@@ -23,6 +23,32 @@ def say_fix(x):
 # ---------- voice ----------
 D=TTS+"vits-piper-fr_FR-tom-medium"
 tts=sherpa_onnx.OfflineTts(sherpa_onnx.OfflineTtsConfig(model=sherpa_onnx.OfflineTtsModelConfig(vits=sherpa_onnx.OfflineTtsVitsModelConfig(model=D+"/fr_FR-tom-medium.onnx",tokens=D+"/tokens.txt",data_dir=D+"/espeak-ng-data",noise_scale=0.667,noise_scale_w=0.8,length_scale=spec.get("length",0.9)),num_threads=2)))
+def tight(w,sr,cap=.16,thr=.01,minrun=.2):
+    a=np.abs(w);k=max(1,int(.01*sr));e=np.convolve(a,np.ones(k)/k,"same")>thr
+    out=[];i=0;n=len(w);keep=int(cap*sr)
+    while i<n:
+        j=i
+        if e[i]:
+            while j<n and e[j]: j+=1
+            out.append(w[i:j])
+        else:
+            while j<n and not e[j]: j+=1
+            seg=w[i:j]
+            if (j-i)>minrun*sr and i>0 and j<n:
+                h=keep//2; seg=np.concatenate([seg[:h],seg[-(keep-h):]])
+            out.append(seg)
+        i=j
+    return np.concatenate(out)
+
+def finish_voice(w,sr):
+    """nettoyage son (grave coupé, présence, compression) + rythme +8 % (atempo, sans écho)"""
+    import subprocess,tempfile,soundfile as sf
+    a=tempfile.mktemp(suffix=".wav"); b=tempfile.mktemp(suffix=".wav"); sf.write(a,w,sr)
+    af="highpass=f=90,atempo=1.08,equalizer=f=3200:t=q:w=1:g=3,acompressor=threshold=-20dB:ratio=3:attack=5:release=60,alimiter=limit=0.9"
+    r=subprocess.run(["ffmpeg","-loglevel","error","-y","-i",a,"-af",af,b],capture_output=True)
+    if r.returncode!=0: return w
+    y,_=sf.read(b); return y.astype(np.float32)
+
 def cb_voices():
     """Voix de Sam clonée (Chatterbox, CPU). Génère phrase par phrase, coupe les silences, enchaîne fluide."""
     import torch,time
@@ -39,13 +65,13 @@ def cb_voices():
         x=x[max(0,idx[0]-int(.03*m.sr)):idx[-1]+int(.08*m.sr)]
         return x
     for s in spec["scenes"]:
-        sents=[z.strip() for z in re.split(r"(?<=[.!?])\s+",s["say"]) if z.strip()]
+        sents=[z.strip() for z in re.split(r"(?<=[.!?])\s+",re.sub(r"\bf r\b","effe erre",s["say"])) if z.strip()]
         parts=[]
         for z in sents:
             best=None
             for tr in range(3):
-                w=m.generate(z,language_id="fr",audio_prompt_path=ref,exaggeration=0.5,cfg_weight=0.4).squeeze().numpy()
-                w=clean(w); dur=len(w)/m.sr; nw=len(z.split())
+                w=m.generate(z,language_id="fr",audio_prompt_path=ref,exaggeration=0.8,cfg_weight=0.3).squeeze().numpy()
+                w=tight(clean(w),m.sr); dur=len(w)/m.sr; nw=len(z.split())
                 ok=0.17*nw<=dur<=0.55*nw+0.8
                 if best is None or ok: best=w
                 if ok: break
@@ -55,7 +81,7 @@ def cb_voices():
             w=w.copy(); w[:fade]*=np.linspace(0,1,fade); w[-fade:]*=np.linspace(1,0,fade)
             seq.append(w)
             if i<len(parts)-1: seq.append(gap)
-        w=np.concatenate(seq); w=resample_poly(w,SR,m.sr).astype(np.float32)
+        w=np.concatenate(seq); w=resample_poly(w,SR,m.sr).astype(np.float32); w=finish_voice(w,SR)
         out.append(w/max(1e-6,np.abs(w).max())*0.9)
     return out
 
