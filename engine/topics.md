@@ -17,4 +17,4 @@ Démos de l'app (types : phone_loyalty, phone_sms, phone_review, phone_dash)
 16. Démo : la demande d'avis Google après le repas
 17. Démo : un défi de la semaine (viens 3 fois, gagne un menu)
 Offre
-18. L'offre : essai gratuit 1 mois, puis 149 € par mois ; annuel 1 490 € avec 2 mois offerts
+18. L'offre : essai gratuit 1 mois avec toutes les fonctions, puis 3 formules (Étincelle 49 €, Flamme 79 €, Brasier 129 € HT par mois)

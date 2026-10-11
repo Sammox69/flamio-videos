@@ -50,3 +50,11 @@ Sur la scène hook d'une vidéo, ajoute `"d3":true` pour afficher une carte de f
 
 ## Voix de Sam (réglages validés le 10/10)
 build.py applique automatiquement : voix plus dynamique, pauses longues raccourcies, rythme +8 %, son nettoyé, et « f r » lu « effe erre » (écris toujours « flamio app point f r » dans "say").
+
+## TARIFS (mise à jour du 12/10/2026 — PRIORITÉ ABSOLUE, remplace TOUT ancien prix : 149 € et 1 490 € n'existent plus)
+Essai gratuit 1 mois avec toutes les fonctions, sans engagement, résiliable à tout moment depuis le tableau de bord ; on choisit sa formule à la fin de l'essai. Prix hors taxes, TVA non applicable (art. 293 B du CGI). Trois formules :
+- ÉTINCELLE 49 € HT par mois, 50 SMS inclus par mois : programme de fidélité par QR code, base clients (numéros collectés automatiquement), points, cadeaux et statistiques, clients illimités.
+- FLAMME 79 € HT par mois (la plus choisie), 150 SMS inclus : tout Étincelle + avis Google et retours de satisfaction, parrainage entre clients, vidéos TikTok récompensées, offres flash par SMS.
+- BRASIER 129 € HT par mois, 300 SMS inclus : tout Flamme + relance automatique des clients inactifs, demande d'avis automatique après la visite, défis par SMS pour faire revenir les clients, accompagnement à la mise en place.
+- SMS en plus : recharge de 250 SMS pour 25 €, sans expiration.
+Règles : les prix ne sont cités QUE dans une vidéo de type OFFRE (une par semaine maximum) ; jamais d'ancien prix ; ne dis pas « par restaurant ». Dans une vidéo offre, rattache chaque fonction à la bonne formule (ex. relance automatique des clients inactifs = Brasier ; avis Google et parrainage = Flamme ; QR code, points et cadeaux = Étincelle). Dans les autres vidéos, ne cite aucun prix ; parle des fonctions sans dire dans quelle formule elles sont, et évite de promettre « tout inclus ». Ne cite jamais le nom « Brasier/Flamme/Étincelle » hors vidéo offre.
