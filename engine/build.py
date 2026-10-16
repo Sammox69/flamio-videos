@@ -50,7 +50,7 @@ def finish_voice(w,sr):
     y,_=sf.read(b); return y.astype(np.float32)
 
 def cb_voices():
-    """Voix de Sam clonée (Chatterbox, CPU). Génère phrase par phrase, coupe les silences, enchaîne fluide."""
+    """Voix du narrateur VSL clonée (Chatterbox, CPU). Génère phrase par phrase, coupe les silences, enchaîne fluide."""
     import torch,time
     from scipy.signal import resample_poly
     from chatterbox.mtl_tts import ChatterboxMultilingualTTS
@@ -70,7 +70,7 @@ def cb_voices():
         for z in sents:
             best=None
             for tr in range(3):
-                w=m.generate(z,language_id="fr",audio_prompt_path=ref,exaggeration=0.8,cfg_weight=0.3).squeeze().numpy()
+                w=m.generate(z,language_id="fr",audio_prompt_path=ref,exaggeration=0.5,cfg_weight=0.5).squeeze().numpy()
                 w=tight(clean(w),m.sr); dur=len(w)/m.sr; nw=len(z.split())
                 ok=0.17*nw<=dur<=0.55*nw+0.8
                 if best is None or ok: best=w

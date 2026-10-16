@@ -48,14 +48,14 @@ Sur la scène hook d'une vidéo, ajoute `"d3":true` pour afficher une carte de f
 - build.py affiche "3D: ok" ou "3D: indisponible". Si indisponible, la carte n'est simplement pas dessinée : continue normalement.
 - Le rendu 3D est plus lent (environ 3 à 4 minutes de plus par vidéo avec d3). Garde cela en tête dans le planning du rendu.
 
-## Voix de Sam (réglages validés le 10/10)
+## Voix (depuis le 16/10 : voix du narrateur de la VSL, remplace la voix clonée de Sam)
 build.py applique automatiquement : voix plus dynamique, pauses longues raccourcies, rythme +8 %, son nettoyé, et « f r » lu « effe erre » (écris toujours « flamio app point f r » dans "say").
 
-## TARIFS (mise à jour du 12/10/2026 — PRIORITÉ ABSOLUE, remplace TOUT ancien prix : 149 € et 1 490 € n'existent plus)
-Essai gratuit 1 mois avec toutes les fonctions, sans engagement, résiliable à tout moment depuis le tableau de bord ; on choisit sa formule à la fin de l'essai. Prix hors taxes, TVA non applicable (art. 293 B du CGI). Trois formules :
-- ÉTINCELLE 49 € HT par mois, 50 SMS inclus par mois : programme de fidélité par QR code, base clients (numéros collectés automatiquement), points, cadeaux et statistiques, clients illimités.
-- FLAMME 79 € HT par mois (la plus choisie), 150 SMS inclus : tout Étincelle + avis Google et retours de satisfaction, parrainage entre clients, vidéos TikTok récompensées, offres flash par SMS.
-- BRASIER 129 € HT par mois, 300 SMS inclus : tout Flamme + relance automatique des clients inactifs, demande d'avis automatique après la visite, défis par SMS pour faire revenir les clients, accompagnement à la mise en place.
+## TARIFS (mise à jour du 16/10/2026 — PRIORITÉ ABSOLUE, remplace TOUT ancien prix : 149 € et 1 490 € n'existent plus)
+Essai gratuit 1 mois avec toutes les fonctions, sans engagement, résiliable à tout moment depuis le tableau de bord ; on choisit sa formule à la fin de l'essai. Ne jamais écrire ni dire « HT », « hors taxes » ni mentionner la TVA. Trois formules :
+- ÉTINCELLE 49 € par mois, 50 SMS inclus par mois : programme de fidélité par QR code, base clients (numéros collectés automatiquement), points, cadeaux et statistiques, clients illimités.
+- FLAMME 99 € par mois, 150 SMS inclus : tout Étincelle + avis Google et retours de satisfaction, parrainage entre clients, vidéos TikTok récompensées, offres flash par SMS.
+- BRASIER 129 € par mois (formule « recommandée » : seule formule qualifiée ainsi), 300 SMS inclus : tout Flamme + relance automatique des clients inactifs, demande d'avis automatique après la visite, défis par SMS pour faire revenir les clients, accompagnement à la mise en place.
 - SMS en plus : recharge de 250 SMS pour 25 €, sans expiration.
 Règles : les prix ne sont cités QUE dans une vidéo de type OFFRE (une par semaine maximum) ; jamais d'ancien prix ; ne dis pas « par restaurant ». Dans une vidéo offre, rattache chaque fonction à la bonne formule (ex. relance automatique des clients inactifs = Brasier ; avis Google et parrainage = Flamme ; QR code, points et cadeaux = Étincelle). Dans les autres vidéos, ne cite aucun prix ; parle des fonctions sans dire dans quelle formule elles sont, et évite de promettre « tout inclus ». Ne cite jamais le nom « Brasier/Flamme/Étincelle » hors vidéo offre.
 
