@@ -17,4 +17,6 @@ Démos de l'app (types : phone_loyalty, phone_sms, phone_review, phone_dash)
 16. Démo : la demande d'avis Google après le repas
 17. Démo : un défi de la semaine (viens 3 fois, gagne un menu)
 Offre
-18. L'offre : essai gratuit 1 mois avec toutes les fonctions, puis 3 formules (Étincelle 49 €, Flamme 99 €, Brasier 129 € par mois, sans mention HT)
+18. L'offre : essai gratuit 1 mois avec toutes les fonctions, puis 30 € par mois, sans engagement, sans mention HT
+19. Preuve : chez un snack pilote, 260 inscriptions en 2 semaines dont 30 par parrainage (voir PREUVE SOCIALE)
+20. Preuve : chez un snack pilote, 8 % d'avis Google en plus en 2 semaines (voir PREUVE SOCIALE)
