@@ -65,7 +65,7 @@ def cb_voices():
         x=x[max(0,idx[0]-int(.03*m.sr)):idx[-1]+int(.08*m.sr)]
         return x
     for s in spec["scenes"]:
-        sents=[z.strip() for z in re.split(r"(?<=[.!?])\s+",re.sub(r"\bf r\b","effe erre",s["say"])) if z.strip()]
+        sents=[z.strip() for z in re.split(r"(?<=[.!?])\s+",re.sub(r"\bf r\b","effe erre",say_fix(s["say"]))) if z.strip()]
         parts=[]
         for z in sents:
             best=None
