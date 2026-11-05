@@ -118,7 +118,8 @@ for i,(s,w) in enumerate(zip(spec["scenes"],voices)):
     if ty=="phone_sms": ev["n1"]=PAD+d*.5; ev["n2"]=ev["n1"]+.8; ev["chip"]=ev["n2"]+.4
     if ty=="phone_review": ev["press"]=PAD+d*.55; ev["stars"]=ev["press"]+.35
     if ty=="phone_dash": ev["k0"]=PAD+.9; ev["b0"]=PAD+max(.9,d*.25); ev["chip"]=ev["b0"]+1.4
-    if ty=="tips":
+    if ty=="mo_stat": ev["a"]=PAD+.7; ev["b"]=PAD+max(2.0,d*.45); ev["c"]=PAD+max(3.4,d*.78)
+    if ty in ("tips","mo_list"):
         nI=len(s["items"]); t0=PAD+max(.9,d*.2); gap=max(.6,d*.65/nI); ev["items"]=[t0+k*gap for k in range(nI)]
     if ty=="cta": ev["url"]=PAD+d*.78
     scenes.append({"id":sid,"type":ty,"p":s,"start":start,"end":end,"ev":ev,"vs":vs,"d":d})
@@ -140,6 +141,7 @@ for sc in scenes:
     if ty=="hook":
         hits.append({"t":st+.02,"a":16}); hits.append({"t":st+.34,"a":8})
     if ty=="cta": hits.append({"t":st+.3,"a":20})
+    if ty=="mo_title": hits.append({"t":st+.02,"a":16}); hits.append({"t":st+.3,"a":8})
     if ty=="phone_loyalty": hits.append({"t":st+sc["ev"]["unlock"],"a":9})
     if ty=="phone_review": hits.append({"t":st+sc["ev"]["press"],"a":6})
 
@@ -241,7 +243,15 @@ for i,sc in enumerate(scenes):
         for k in range(8): S(st+ev["b0"]+.1*k,soft(360*1.07**k,.07),.28)
         for k in range(10): S(st+ev["k0"]+k*.12,soft(420*1.04**k,.05),.2)
         S(st+ev["chip"],soft(480,.14),.45)
-    if ty=="tips":
+    if ty=="mo_title":
+        S(st+.0,impact(.7),.55)
+        for k in range(len(sc["p"]["lines"])): S(st+.14+.17*k+.12,thud(),.35); S(st+.14+.17*k,SWOOSH[:int(.3*SR)]*np.linspace(1,0,int(.3*SR)),.25)
+    if ty=="mo_stat":
+        for k0 in (ev["a"],ev["b"]):
+            S(st+k0,thud(),.5)
+            for k in range(10): S(st+k0+.1+k*.1,soft(380*1.05**k,.05),.22)
+        S(st+ev["c"],soft(520,.16),.6); S(st+ev["c"],thud(),.4); S(st+ev["c"]+.03,sparkle(.5),.1)
+    if ty in ("tips","mo_list"):
         for k,tm in enumerate(ev["items"]): S(st+tm,soft(420*1.08**k,.12),.5); S(st+tm+.02,thud(),.25)
     if i<N-1 and spec["scenes"][i+1]["type"]=="cta": S(sc["end"]-1.25,lp(riser(1.25),3500),.3)
     if ty=="cta":
