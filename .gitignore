@@ -2,3 +2,4 @@ engine/models/
 engine/work/
 engine/sfx/
 *.pyc
+engine/setup.log
